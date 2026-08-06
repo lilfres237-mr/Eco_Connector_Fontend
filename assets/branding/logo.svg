@@ -1,0 +1,27 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circular Frame -->
+  <path d="M256 460C368.666 460 460 368.666 460 256C460 143.334 368.666 52 256 52C143.334 52 52 143.334 52 256C52 368.666 143.334 460 256 460Z" stroke="#006D3E" stroke-width="24" stroke-linecap="round"/>
+
+  <!-- Leaf on the Frame -->
+  <path d="M300 60C300 60 360 40 400 100C420 140 380 180 340 160C320 150 300 100 300 100L300 60Z" fill="#4CAF50"/>
+  <path d="M300 100C300 100 320 140 360 140" stroke="#004D2C" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Truck Silhouette -->
+  <rect x="160" y="180" width="160" height="100" rx="12" fill="#002213"/>
+  <path d="M320 200L360 220V280H320V200Z" fill="#002213"/>
+  <circle cx="200" cy="300" r="20" fill="#002213"/>
+  <circle cx="320" cy="300" r="20" fill="#002213"/>
+
+  <!-- Recycling Symbol on Truck -->
+  <path d="M240 210L250 220L240 230" stroke="#4CAF50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M220 250L210 240L200 250" stroke="#4CAF50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M260 250L270 240L280 250" stroke="#4CAF50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Location Pin -->
+  <path d="M256 320C230 320 210 340 210 366C210 400 256 440 256 440C256 440 302 400 302 366C302 340 282 320 256 320Z" fill="#4CAF50"/>
+  <circle cx="256" cy="366" r="8" fill="white"/>
+
+  <!-- Hands holding the circle -->
+  <path d="M120 400C160 440 220 460 256 460" stroke="#002213" stroke-width="16" stroke-linecap="round"/>
+  <path d="M392 400C352 440 292 460 256 460" stroke="#002213" stroke-width="16" stroke-linecap="round"/>
+</svg>
