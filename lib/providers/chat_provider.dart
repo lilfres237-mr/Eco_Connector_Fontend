@@ -1,45 +1,69 @@
+import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../models/chat_model.dart';
+import '../services/storage_service.dart';
+import '../core/constants/app_images.dart';
 
 enum ChatCategory { rider, support, marketplace, all }
 
 class ChatProvider extends ChangeNotifier {
-  final List<ChatRoom> _chatRooms = [
-    ChatRoom(
-      id: 'support',
-      otherUserName: 'EcoConnect Support',
-      otherUserAvatar: 'https://i.pravatar.cc/150?img=1',
-      isOnline: true,
-      messages: [
-        Message(
-          id: 'm1',
-          senderId: 'support',
-          senderName: 'Support',
-          senderAvatar: 'https://i.pravatar.cc/150?img=1',
-          text: 'Hello! I am your EcoConnect Assistant. How can I help you today?',
-          timestamp: DateTime.now().subtract(const Duration(hours: 1)),
-          isMe: false,
+  List<ChatRoom> _chatRooms = [];
+
+  ChatProvider() {
+    _loadChatRooms();
+  }
+
+  void _loadChatRooms() {
+    final chatJson = StorageService.getString('user_chats');
+    if (chatJson != null && chatJson.isNotEmpty) {
+      final List<dynamic> decoded = json.decode(chatJson);
+      _chatRooms = decoded.map((c) => ChatRoom.fromJson(c)).toList();
+    } else {
+      _chatRooms = [
+        ChatRoom(
+          id: 'support',
+          otherUserName: 'EcoConnect Support',
+          otherUserAvatar: AppImages.avatarPlaceholder,
+          isOnline: true,
+          messages: [
+            Message(
+              id: 'm1',
+              senderId: 'support',
+              senderName: 'Support',
+              senderAvatar: AppImages.avatarPlaceholder,
+              text: 'Hello! I am your EcoConnect Assistant. How can I help you today?',
+              timestamp: DateTime.now().subtract(const Duration(hours: 1)),
+              isMe: false,
+            ),
+          ],
         ),
-      ],
-    ),
-    ChatRoom(
-      id: 'r1',
-      otherUserName: 'Marcus Chen',
-      otherUserAvatar: 'https://i.pravatar.cc/150?img=11',
-      messages: [
-        Message(
-          id: 'm2',
-          senderId: 'marcus',
-          senderName: 'Marcus',
-          senderAvatar: 'https://i.pravatar.cc/150?img=11',
-          text: "I've arrived at the collection point.",
-          timestamp: DateTime.now().subtract(const Duration(days: 1)),
-          isMe: false,
+        ChatRoom(
+          id: 'r1',
+          otherUserName: 'Marcus Chen',
+          otherUserAvatar: AppImages.avatarPlaceholder,
+          messages: [
+            Message(
+              id: 'm2',
+              senderId: 'marcus',
+              senderName: 'Marcus',
+              senderAvatar: AppImages.avatarPlaceholder,
+              text: "I've arrived at the collection point.",
+              timestamp: DateTime.now().subtract(const Duration(days: 1)),
+              isMe: false,
+            ),
+          ],
         ),
-      ],
-    ),
-  ];
+      ];
+      _saveChatRooms();
+    }
+    notifyListeners();
+  }
+
+  Future<void> _saveChatRooms() async {
+    final chatJson = json.encode(_chatRooms.map((c) => c.toJson()).toList());
+    await StorageService.setString('user_chats', chatJson);
+  }
 
   List<ChatRoom> get chatRooms => _chatRooms;
 
@@ -66,11 +90,12 @@ class ChatProvider extends ChangeNotifier {
         id: DateTime.now().toString(),
         senderId: 'me',
         senderName: 'Me',
-        senderAvatar: 'https://i.pravatar.cc/150?img=12',
+        senderAvatar: AppImages.avatarPlaceholder,
         text: text,
         timestamp: DateTime.now(),
         isMe: true,
       ));
+      _saveChatRooms();
       notifyListeners();
 
       if (roomId == 'support') {
@@ -101,11 +126,12 @@ class ChatProvider extends ChangeNotifier {
         id: DateTime.now().toString(),
         senderId: 'support',
         senderName: 'Support',
-        senderAvatar: 'https://i.pravatar.cc/150?img=1',
+        senderAvatar: AppImages.avatarPlaceholder,
         text: response,
         timestamp: DateTime.now(),
         isMe: false,
       ));
+      _saveChatRooms();
       notifyListeners();
     });
   }

@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../models/pickup_request.dart';
+import '../../../core/constants/app_images.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -285,7 +286,7 @@ class PickupDetailsScreen extends StatelessWidget {
             final rider = PickupRider(
               id: user?.id ?? 'r1',
               name: user?.name ?? 'Rider Marcus',
-              avatar: user?.profileImageUrl ?? 'https://i.pravatar.cc/150?img=11',
+              avatar: AppImages.avatarPlaceholder,
               vehicleInfo: 'Electric Trike • GEX-902',
               contactNumber: user?.phoneNumber ?? '+1 555 999 0000',
               rating: user?.ecoRating ?? 4.9,

@@ -99,4 +99,42 @@ class PickupRequest {
       isBroadcasted: isBroadcasted ?? this.isBroadcasted,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'customerId': customerId,
+      'customerName': customerName,
+      'address': address,
+      'description': description,
+      'wasteType': wasteType,
+      'weightKg': weightKg,
+      'dateTime': dateTime.toIso8601String(),
+      'contactNumber': contactNumber,
+      'specialInstructions': specialInstructions,
+      'status': status.index,
+      'trackingNumber': trackingNumber,
+      'assignedRider': assignedRider?.toJson(),
+      'isBroadcasted': isBroadcasted,
+    };
+  }
+
+  factory PickupRequest.fromJson(Map<String, dynamic> json) {
+    return PickupRequest(
+      id: json['id'],
+      customerId: json['customerId'],
+      customerName: json['customerName'],
+      address: json['address'],
+      description: json['description'],
+      wasteType: json['wasteType'],
+      weightKg: (json['weightKg'] as num).toDouble(),
+      dateTime: DateTime.parse(json['dateTime']),
+      contactNumber: json['contactNumber'],
+      specialInstructions: json['specialInstructions'],
+      status: PickupStatus.values[json['status']],
+      trackingNumber: json['trackingNumber'],
+      assignedRider: json['assignedRider'] != null ? PickupRider.fromJson(json['assignedRider']) : null,
+      isBroadcasted: json['isBroadcasted'] ?? false,
+    );
+  }
 }

@@ -4,16 +4,17 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../models/tip_model.dart';
+import '../../../core/constants/app_images.dart';
 
 class TipsScreen extends StatelessWidget {
   const TipsScreen({super.key});
 
-  static const List<TipModel> allTips = [
+  static final List<TipModel> allTips = [
     TipModel(
       id: '1',
       title: 'Mastering Organic Scraps & Composting',
       category: 'Organic',
-      imageUrl: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800',
+      imageUrl: AppImages.organicDefault,
       date: 'Oct 24, 2026',
       readingTime: '5 min',
       content: 'Organic waste, or green waste, is anything that can decompose naturally. This includes fruit peels, vegetable remains, coffee grounds, and garden waste like leaves and grass clippings.\n\nWhy sort organic scraps?\nWhen organic waste is sent to landfills, it decomposes anaerobically (without oxygen), which produces methane—a greenhouse gas much more potent than carbon dioxide. By sorting it, you allow for composting, which turns waste into nutrient-rich soil.\n\nDeep Dive into Composting:\nComposting is nature\'s way of recycling. By providing the right environment for bacteria, fungi, and other decomposing organisms, you can turn your kitchen scraps into "black gold" for your garden.\n\nTips for better sorting:\n1. Use a dedicated bin for food scraps to avoid contamination.\n2. Avoid mixing plastic bags or packaging with organics, even if they claim to be biodegradable.\n3. Garden waste should be separated if possible to facilitate professional mulching and large-scale composting operations.',
@@ -22,7 +23,7 @@ class TipsScreen extends StatelessWidget {
       id: '2',
       title: 'Paper & Cardboard: The Cleanliness Factor',
       category: 'Paper',
-      imageUrl: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800',
+      imageUrl: AppImages.paperDefault,
       date: 'Oct 22, 2026',
       readingTime: '3 min',
       content: 'Paper and cardboard are highly recyclable, but they must be clean. Oil and food stains can ruin an entire batch of recycled paper by preventing the fibers from bonding correctly during the pulping process.\n\nWhat to include:\n- Newspapers and magazines (glossy is usually fine)\n- Cereal boxes and shipping cartons (remove tape if possible)\n- Office paper and envelopes\n\nWhat to avoid:\n- Greasy pizza boxes (the grease is the enemy!)\n- Wax-coated paper cups or frozen food boxes\n- Thermal receipt paper, which often contains BPA',
@@ -31,7 +32,7 @@ class TipsScreen extends StatelessWidget {
       id: '3',
       title: 'Identifying & Sorting Metals',
       category: 'Metals',
-      imageUrl: 'https://images.unsplash.com/photo-1558484628-95a02ea2911b?w=800',
+      imageUrl: AppImages.metalDefault,
       date: 'Oct 20, 2026',
       readingTime: '4 min',
       content: 'Metals like aluminum and steel are valuable materials that can be recycled infinitely without losing quality. In fact, recycling aluminum saves 95% of the energy needed to produce it from scratch.\n\nPreparation for Recycling:\n1. Rinse cans to remove food residue and prevent odors/pests.\n2. Remove plastic labels if possible, though most modern facilities can handle them.\n3. Separate aluminum cans from steel scrap to help collection riders and sorting facilities.\n\nCommon Metal Items:\n- Soda and beer cans (Aluminum)\n- Soup and vegetable cans (Steel/Tin)\n- Aluminum foil (if clean)\n- Metal lids from glass jars',
@@ -40,7 +41,7 @@ class TipsScreen extends StatelessWidget {
       id: '4',
       title: 'Plastic Waste: The Resin Code Guide',
       category: 'Plastic',
-      imageUrl: 'https://images.unsplash.com/photo-1595273670150-db0a3bf37b35?w=800',
+      imageUrl: AppImages.plasticDefault,
       date: 'Oct 18, 2026',
       readingTime: '6 min',
       content: 'Plastics are categorized by resin codes (the numbers 1 through 7 inside the chasing arrows triangle). Not all plastics are created equal, and not all are accepted by local collection partners.\n\nCommonly accepted:\n- PET (1): Water and soda bottles. Highly recyclable.\n- HDPE (2): Milk jugs, shampoo bottles, and detergent containers.\n\nLess commonly accepted:\n- PVC (3): Pipes and certain wraps.\n- LDPE (4): Plastic bags and some squeezable bottles.\n- PP (5): Yogurt containers and bottle caps.\n- PS (6): Styrofoam and disposable cutlery.\n- Other (7): Mixed materials or specialized plastics.\n\nImportant step:\nAlways check the resin code on the bottom. Rinse bottles and remove caps (unless specified otherwise) before disposal.',
@@ -244,8 +245,8 @@ class TipsScreen extends StatelessWidget {
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                   child: AspectRatio(
                     aspectRatio: 16 / 9,
-                    child: Image.network(
-                      'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+                    child: Image.asset(
+                      AppImages.paperDefault,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => Container(
                         color: Theme.of(context).colorScheme.surface,

@@ -12,6 +12,7 @@ import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/settings_provider.dart';
 import '../../../widgets/app_logo.dart';
+import '../../../core/constants/app_images.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -84,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
               CircleAvatar(
                 radius: 50,
                 backgroundColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-                backgroundImage: NetworkImage(user?.profileImageUrl ?? 'https://i.pravatar.cc/150?img=11'),
+                backgroundImage: AssetImage(AppImages.getSafeImage(user?.profileImageUrl, fallback: AppImages.avatarPlaceholder)),
               ),
               Positioned(
                 bottom: 0,

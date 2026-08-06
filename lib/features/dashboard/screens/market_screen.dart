@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../widgets/app_logo.dart';
-import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../providers/market_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../models/market_listing_model.dart';
 import 'product_details_screen.dart';
+import '../../../core/constants/app_images.dart';
 
 class MarketScreen extends StatefulWidget {
   const MarketScreen({super.key});
@@ -100,7 +100,7 @@ class MarketScreenState extends State<MarketScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).cardTheme.color,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Theme.of(context).dividerTheme.color ?? AppColors.gray200),
+                border: Border.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.1)),
               ),
               child: Row(
                 children: [
@@ -118,7 +118,7 @@ class MarketScreenState extends State<MarketScreen> {
           decoration: BoxDecoration(
             color: Theme.of(context).cardTheme.color,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Theme.of(context).dividerTheme.color ?? AppColors.gray200),
+            border: Border.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.1)),
           ),
           child: Icon(Icons.tune, color: Theme.of(context).iconTheme.color),
         ),
@@ -142,7 +142,7 @@ class MarketScreenState extends State<MarketScreen> {
                 decoration: BoxDecoration(
                   color: isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).cardTheme.color,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).dividerTheme.color ?? AppColors.gray200),
+                  border: Border.all(color: isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).dividerColor.withValues(alpha: 0.1)),
                 ),
                 child: Text(
                   _filters[index],
@@ -218,7 +218,7 @@ class MarketScreenState extends State<MarketScreen> {
         decoration: BoxDecoration(
           color: Theme.of(context).cardTheme.color,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Theme.of(context).dividerTheme.color ?? AppColors.gray200),
+          border: Border.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.1)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,8 +228,8 @@ class MarketScreenState extends State<MarketScreen> {
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                    child: Image.network(
-                      listing.imageUrls.first,
+                    child: Image.asset(
+                      AppImages.getSafeImage(listing.imageUrls.first),
                       width: double.infinity,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => Container(color: Theme.of(context).disabledColor),

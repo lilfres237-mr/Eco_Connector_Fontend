@@ -5,6 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../providers/chat_provider.dart';
 import '../../../models/chat_model.dart';
+import '../../../core/constants/app_images.dart';
 
 class ChatDetailsScreen extends StatefulWidget {
   final String chatRoomId;
@@ -58,7 +59,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                 CircleAvatar(
                   radius: 20,
                   backgroundColor: AppColors.gray200,
-                  backgroundImage: NetworkImage(room.otherUserAvatar),
+                  backgroundImage: AssetImage(AppImages.getSafeImage(room.otherUserAvatar, fallback: AppImages.avatarPlaceholder)),
                 ),
                 if (room.isOnline)
                   Positioned(
@@ -117,7 +118,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
               itemBuilder: (context, index) {
                 final msg = room.messages[index];
                 final isLastInGroup = index == room.messages.length - 1 || room.messages[index + 1].senderId != msg.senderId;
-                return _buildMessageBubble(msg, isLastInGroup);
+                return _buildMessageBubble(context, msg, isLastInGroup);
               },
             ),
           ),
@@ -127,7 +128,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     );
   }
 
-  Widget _buildMessageBubble(Message msg, bool isLastInGroup) {
+  Widget _buildMessageBubble(BuildContext context, Message msg, bool isLastInGroup) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
@@ -136,7 +137,10 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         children: [
           if (!msg.isMe) ...[
             if (isLastInGroup)
-              CircleAvatar(radius: 14, backgroundImage: NetworkImage(msg.senderAvatar))
+              CircleAvatar(
+                radius: 14, 
+                backgroundImage: AssetImage(AppImages.getSafeImage(msg.senderAvatar, fallback: AppImages.avatarPlaceholder))
+              )
             else
               const SizedBox(width: 28),
             const SizedBox(width: 8),
@@ -181,7 +185,10 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           if (msg.isMe) ...[
             const SizedBox(width: 8),
             if (isLastInGroup)
-              CircleAvatar(radius: 14, backgroundImage: NetworkImage(msg.senderAvatar))
+              CircleAvatar(
+                radius: 14, 
+                backgroundImage: AssetImage(AppImages.getSafeImage(msg.senderAvatar, fallback: AppImages.avatarPlaceholder))
+              )
             else
               const SizedBox(width: 28),
           ],

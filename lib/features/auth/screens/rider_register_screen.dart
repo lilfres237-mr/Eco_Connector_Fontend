@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_text_styles.dart';
+import '../../../core/routes/app_routes.dart';
 
 class RiderRegisterScreen extends StatelessWidget {
   const RiderRegisterScreen({super.key});
@@ -179,19 +180,22 @@ class RiderRegisterScreen extends StatelessWidget {
             
             const SizedBox(height: 24),
             Center(
-              child: RichText(
-                text: const TextSpan(
-                  style: TextStyle(color: Color(0xFF757575), fontSize: 15),
-                  children: [
-                    TextSpan(text: 'Already have an account? '),
-                    TextSpan(
-                      text: 'Log In',
-                      style: TextStyle(
-                        color: Color(0xFF006D3E),
-                        fontWeight: FontWeight.bold,
+              child: InkWell(
+                onTap: () => Navigator.pushNamed(context, AppRoutes.login),
+                child: RichText(
+                  text: const TextSpan(
+                    style: TextStyle(color: Color(0xFF757575), fontSize: 15),
+                    children: [
+                      TextSpan(text: 'Already have an account? '),
+                      TextSpan(
+                        text: 'Log In',
+                        style: TextStyle(
+                          color: Color(0xFF006D3E),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

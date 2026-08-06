@@ -22,4 +22,16 @@ class StorageService {
   static bool? getBool(String key) {
     return _prefs.getBool(key);
   }
+
+  static Future<void> remove(String key) async {
+    await _prefs.remove(key);
+  }
+
+  static Future<void> clear() async {
+    await _prefs.clear();
+  }
+
+  static bool containsKey(String key) {
+    return _prefs.containsKey(key);
+  }
 }

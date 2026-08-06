@@ -13,6 +13,7 @@ import '../../../providers/notification_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../models/user_model.dart';
 import '../widgets/quick_action_button.dart';
+import '../../../core/constants/app_images.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -335,17 +336,17 @@ class HomeScreen extends StatelessWidget {
       child: PageView(
         children: [
           _buildCarouselItem(
-            'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800',
+            AppImages.paperDefault,
             'Did you know?',
             'Recycling 1 ton of paper saves 17 trees and 7,000 gallons of water.',
           ),
           _buildCarouselItem(
-            'https://images.unsplash.com/photo-1595273670150-db0a3bf37b35?w=800',
+            AppImages.plasticDefault,
             'Plastic Awareness',
             'Over 8 million tons of plastic enter our oceans every year.',
           ),
           _buildCarouselItem(
-            'https://images.unsplash.com/photo-1558484628-95a02ea2911b?w=800',
+            AppImages.metalDefault,
             'Metal Recycling',
             'Recycling aluminum saves 95% of the energy needed to make new metal.',
           ),
@@ -354,13 +355,13 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCarouselItem(String imageUrl, String title, String subtitle) {
+  Widget _buildCarouselItem(String imagePath, String title, String subtitle) {
     return Container(
       margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
-          image: NetworkImage(imageUrl),
+          image: AssetImage(AppImages.getSafeImage(imagePath)),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(Colors.black.withValues(alpha: 0.5), BlendMode.darken),
         ),
@@ -684,7 +685,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundImage: NetworkImage(isRider ? 'https://i.pravatar.cc/150?img=12' : 'https://i.pravatar.cc/150?img=11'),
+                      backgroundImage: AssetImage(AppImages.avatarPlaceholder),
                     ),
                     const SizedBox(width: 12),
                     Expanded(

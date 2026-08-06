@@ -10,6 +10,7 @@ import '../../../providers/user_provider.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text_field.dart';
 import '../../../widgets/success_screen.dart';
+import '../../../core/constants/app_images.dart';
 
 import 'dart:io';
 import '../../../services/image_picker_service.dart';
@@ -212,7 +213,7 @@ class _PostWasteScreenState extends State<PostWasteScreen> {
         availableQuantity: double.parse(_quantityController.text),
         sellerId: user?.id ?? 'me',
         sellerName: user?.name ?? 'Anonymous',
-        sellerAvatar: user?.profileImageUrl ?? 'https://i.pravatar.cc/150',
+        sellerAvatar: user?.profileImageUrl ?? AppImages.avatarPlaceholder,
         imageUrls: _localImagePaths, // Using local paths for mock session
         location: user?.address ?? 'Local Area',
         createdAt: DateTime.now(),
@@ -221,7 +222,7 @@ class _PostWasteScreenState extends State<PostWasteScreen> {
       );
 
       final marketProvider = context.read<MarketProvider>();
-      marketProvider.addListing(newListing);
+      await marketProvider.addListing(newListing);
 
       if (mounted) {
         setState(() => _isLoading = false);

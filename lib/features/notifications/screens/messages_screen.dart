@@ -6,6 +6,7 @@ import '../../../core/constants/app_text_styles.dart';
 import '../../../providers/chat_provider.dart';
 import '../../../core/routes/app_routes.dart';
 import 'chat_details_screen.dart';
+import '../../../core/constants/app_images.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({super.key});
@@ -159,7 +160,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
             CircleAvatar(
               radius: 28,
               backgroundColor: Theme.of(context).cardTheme.color,
-              backgroundImage: NetworkImage(imageUrl),
+              backgroundImage: AssetImage(AppImages.getSafeImage(imageUrl, fallback: AppImages.avatarPlaceholder)),
             ),
             const SizedBox(width: 16),
             Expanded(

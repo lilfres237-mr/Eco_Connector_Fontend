@@ -6,6 +6,7 @@ import '../../../core/constants/app_text_styles.dart';
 import '../../../widgets/app_logo.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../widgets/custom_button.dart';
+import '../../../core/constants/app_images.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({super.key});
@@ -221,8 +222,8 @@ class _OTPScreenState extends State<OTPScreen> {
       decoration: BoxDecoration(
         color: AppColors.gray100,
         borderRadius: BorderRadius.circular(20),
-        image: const DecorationImage(
-          image: NetworkImage('https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
+        image: DecorationImage(
+          image: AssetImage(AppImages.paperDefault),
           fit: BoxFit.cover,
           opacity: 0.3,
         ),

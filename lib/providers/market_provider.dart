@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../models/market_listing_model.dart';
 import '../services/storage_service.dart';
+import '../core/constants/app_images.dart';
 
 class MarketProvider extends ChangeNotifier {
   List<MarketListing> _listings = [];
@@ -18,7 +19,6 @@ class MarketProvider extends ChangeNotifier {
       final List<dynamic> decoded = json.decode(listingsJson);
       _listings = decoded.map((l) => MarketListing.fromJson(l)).toList();
     } else {
-      // Default mock listings - All waste related with REAL images
       _listings = [
         MarketListing(
           id: 'l1',
@@ -29,11 +29,8 @@ class MarketProvider extends ChangeNotifier {
           availableQuantity: 50.0,
           sellerId: 's1',
           sellerName: 'MetalRecycle Co.',
-          sellerAvatar: 'https://i.pravatar.cc/150?img=20',
-          imageUrls: [
-            'https://images.unsplash.com/photo-1533062629452-70659448f16c?w=800',
-            'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800'
-          ],
+          sellerAvatar: AppImages.avatarPlaceholder,
+          imageUrls: [AppImages.metalDefault],
           rating: 4.8,
           location: 'San Francisco, CA',
           createdAt: DateTime.now().subtract(const Duration(days: 2)),
@@ -48,8 +45,8 @@ class MarketProvider extends ChangeNotifier {
           availableQuantity: 100.0,
           sellerId: 's2',
           sellerName: 'PlasticPure Ltd',
-          sellerAvatar: 'https://i.pravatar.cc/150?img=32',
-          imageUrls: ['https://images.unsplash.com/photo-1595273670150-db0a3bf37b35?w=800'],
+          sellerAvatar: AppImages.avatarPlaceholder,
+          imageUrls: [AppImages.plasticDefault],
           rating: 4.9,
           location: 'Oakland, CA',
           createdAt: DateTime.now().subtract(const Duration(days: 1)),
@@ -64,8 +61,8 @@ class MarketProvider extends ChangeNotifier {
           availableQuantity: 300.0,
           sellerId: 's3',
           sellerName: 'GlassWorks',
-          sellerAvatar: 'https://i.pravatar.cc/150?img=44',
-          imageUrls: ['https://images.unsplash.com/photo-1618770233481-9b165502c2e0?w=800'],
+          sellerAvatar: AppImages.avatarPlaceholder,
+          imageUrls: [AppImages.glassDefault],
           rating: 4.5,
           location: 'San Jose, CA',
           createdAt: DateTime.now().subtract(const Duration(hours: 5)),
@@ -80,8 +77,8 @@ class MarketProvider extends ChangeNotifier {
           availableQuantity: 2000.0,
           sellerId: 's4',
           sellerName: 'PaperCycle',
-          sellerAvatar: 'https://i.pravatar.cc/150?img=51',
-          imageUrls: ['https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800'],
+          sellerAvatar: AppImages.avatarPlaceholder,
+          imageUrls: [AppImages.paperDefault],
           rating: 4.7,
           location: 'Palo Alto, CA',
           createdAt: DateTime.now().subtract(const Duration(hours: 2)),
@@ -96,8 +93,8 @@ class MarketProvider extends ChangeNotifier {
           availableQuantity: 25.0,
           sellerId: 's5',
           sellerName: 'TechRecover',
-          sellerAvatar: 'https://i.pravatar.cc/150?img=60',
-          imageUrls: ['https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800'],
+          sellerAvatar: AppImages.avatarPlaceholder,
+          imageUrls: [AppImages.electronicDefault],
           rating: 4.6,
           location: 'Fremont, CA',
           createdAt: DateTime.now().subtract(const Duration(days: 3)),
@@ -112,8 +109,8 @@ class MarketProvider extends ChangeNotifier {
           availableQuantity: 500.0,
           sellerId: 's6',
           sellerName: 'GreenEarth',
-          sellerAvatar: 'https://i.pravatar.cc/150?img=68',
-          imageUrls: ['https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800'],
+          sellerAvatar: AppImages.avatarPlaceholder,
+          imageUrls: [AppImages.organicDefault],
           rating: 4.4,
           location: 'Hayward, CA',
           createdAt: DateTime.now().subtract(const Duration(days: 4)),
@@ -128,8 +125,8 @@ class MarketProvider extends ChangeNotifier {
           availableQuantity: 200.0,
           sellerId: 's7',
           sellerName: 'AluRecycle',
-          sellerAvatar: 'https://i.pravatar.cc/150?img=21',
-          imageUrls: ['https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800'],
+          sellerAvatar: AppImages.avatarPlaceholder,
+          imageUrls: [AppImages.metalDefault],
           rating: 4.9,
           location: 'San Francisco, CA',
           createdAt: DateTime.now().subtract(const Duration(days: 1)),
@@ -144,14 +141,15 @@ class MarketProvider extends ChangeNotifier {
           availableQuantity: 1000.0,
           sellerId: 's8',
           sellerName: 'FabricCycle',
-          sellerAvatar: 'https://i.pravatar.cc/150?img=33',
-          imageUrls: ['https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800'],
+          sellerAvatar: AppImages.avatarPlaceholder,
+          imageUrls: [AppImages.wastePlaceholder],
           rating: 4.3,
           location: 'Oakland, CA',
           createdAt: DateTime.now().subtract(const Duration(days: 5)),
           condition: 'Industrial Scrap',
         ),
       ];
+      _saveListings();
     }
     notifyListeners();
   }

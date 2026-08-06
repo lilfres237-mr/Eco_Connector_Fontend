@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../models/tip_model.dart';
+import '../../../core/constants/app_images.dart';
 
 class TipDetailsScreen extends StatelessWidget {
   final TipModel tip;
@@ -55,8 +56,8 @@ class TipDetailsScreen extends StatelessWidget {
         ),
       ),
       flexibleSpace: FlexibleSpaceBar(
-        background: Image.network(
-          tip.imageUrl,
+        background: Image.asset(
+          AppImages.getSafeImage(tip.imageUrl),
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) => Container(
             color: Theme.of(context).disabledColor,

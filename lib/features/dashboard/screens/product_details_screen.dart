@@ -3,6 +3,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../models/market_listing_model.dart';
 import '../../../widgets/custom_button.dart';
+import '../../../core/constants/app_images.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final MarketListing listing;
@@ -64,8 +65,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: PageView.builder(
         itemCount: widget.listing.imageUrls.length,
         itemBuilder: (context, index) {
-          return Image.network(
-            widget.listing.imageUrls[index],
+          return Image.asset(
+            AppImages.getSafeImage(widget.listing.imageUrls[index]),
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) => Container(color: Theme.of(context).disabledColor),
           );
@@ -230,7 +231,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           children: [
             CircleAvatar(
               radius: 24,
-              backgroundImage: NetworkImage(widget.listing.sellerAvatar),
+              backgroundImage: AssetImage(AppImages.getSafeImage(widget.listing.sellerAvatar, fallback: AppImages.avatarPlaceholder)),
             ),
             const SizedBox(width: 16),
             Expanded(

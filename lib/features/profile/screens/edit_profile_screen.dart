@@ -6,6 +6,7 @@ import '../../../core/constants/app_text_styles.dart';
 import '../../../providers/user_provider.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text_field.dart';
+import '../../../core/constants/app_images.dart';
 
 import 'dart:io';
 import '../../../services/image_picker_service.dart';
@@ -167,7 +168,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               backgroundColor: AppColors.gray200,
               backgroundImage: _localImagePath != null 
                   ? FileImage(File(_localImagePath!)) as ImageProvider
-                  : (imageUrl != null ? NetworkImage(imageUrl) : null),
+                  : AssetImage(AppImages.getSafeImage(imageUrl, fallback: AppImages.avatarPlaceholder)) as ImageProvider,
               child: (_localImagePath == null && imageUrl == null) ? const Icon(Icons.person, size: 60, color: AppColors.gray300) : null,
             ),
             Positioned(

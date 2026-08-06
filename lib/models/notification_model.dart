@@ -27,4 +27,26 @@ class NotificationModel {
     required this.type,
     this.isRead = false,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'message': message,
+      'timestamp': timestamp.toIso8601String(),
+      'type': type.index,
+      'isRead': isRead,
+    };
+  }
+
+  factory NotificationModel.fromJson(Map<String, dynamic> json) {
+    return NotificationModel(
+      id: json['id'],
+      title: json['title'],
+      message: json['message'],
+      timestamp: DateTime.parse(json['timestamp']),
+      type: NotificationType.values[json['type']],
+      isRead: json['isRead'] ?? false,
+    );
+  }
 }

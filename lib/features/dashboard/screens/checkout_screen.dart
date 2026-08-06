@@ -9,6 +9,7 @@ import '../../../providers/user_provider.dart';
 import '../../../providers/market_provider.dart';
 import '../../../models/order_model.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../core/constants/app_images.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final MarketListing listing;
@@ -83,7 +84,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(widget.listing.imageUrls.first, width: 60, height: 60, fit: BoxFit.cover),
+                child: Image.asset(AppImages.getSafeImage(widget.listing.imageUrls.first), width: 60, height: 60, fit: BoxFit.cover),
               ),
               const SizedBox(width: 16),
               Expanded(

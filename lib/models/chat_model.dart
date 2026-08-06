@@ -16,6 +16,30 @@ class Message {
     required this.timestamp,
     required this.isMe,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'senderId': senderId,
+      'senderName': senderName,
+      'senderAvatar': senderAvatar,
+      'text': text,
+      'timestamp': timestamp.toIso8601String(),
+      'isMe': isMe,
+    };
+  }
+
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      id: json['id'],
+      senderId: json['senderId'],
+      senderName: json['senderName'],
+      senderAvatar: json['senderAvatar'],
+      text: json['text'],
+      timestamp: DateTime.parse(json['timestamp']),
+      isMe: json['isMe'],
+    );
+  }
 }
 
 class ChatRoom {
@@ -32,4 +56,24 @@ class ChatRoom {
     required this.messages,
     this.isOnline = false,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'otherUserName': otherUserName,
+      'otherUserAvatar': otherUserAvatar,
+      'messages': messages.map((m) => m.toJson()).toList(),
+      'isOnline': isOnline,
+    };
+  }
+
+  factory ChatRoom.fromJson(Map<String, dynamic> json) {
+    return ChatRoom(
+      id: json['id'],
+      otherUserName: json['otherUserName'],
+      otherUserAvatar: json['otherUserAvatar'],
+      messages: (json['messages'] as List).map((m) => Message.fromJson(m)).toList(),
+      isOnline: json['isOnline'] ?? false,
+    );
+  }
 }
