@@ -15,7 +15,11 @@ class UserProvider extends ChangeNotifier {
   void _loadUser() {
     final userJson = StorageService.getString('current_user'); // Use consistent key with AuthProvider
     if (userJson != null && userJson.isNotEmpty) {
-      _user = UserModel.fromJson(json.decode(userJson));
+      try {
+        _user = UserModel.fromJson(json.decode(userJson));
+      } catch (_) {
+        _user = null;
+      }
     } else {
       _user = null;
     }

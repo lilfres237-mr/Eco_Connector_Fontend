@@ -26,11 +26,14 @@ class ProfileMenuItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardTheme.color,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Theme.of(context).dividerTheme.color ?? AppColors.gray200),
       ),
-      child: ListTile(
+      child: Material(
+        color: Theme.of(context).cardTheme.color,
+        borderRadius: BorderRadius.circular(16),
+        clipBehavior: Clip.antiAlias,
+        child: ListTile(
         onTap: onTap,
         contentPadding: const EdgeInsets.all(12),
         leading: Container(
@@ -55,6 +58,7 @@ class ProfileMenuItem extends StatelessWidget {
               )
             : null,
         trailing: trailing ?? Icon(Icons.chevron_right, color: Theme.of(context).disabledColor),
+        ),
       ),
     );
   }

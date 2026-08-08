@@ -93,6 +93,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   return Image.network(
                     _images[index],
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
+                        alignment: Alignment.center,
+                        child: const AppLogo(size: 80, variant: LogoVariant.icon),
+                      );
+                    },
                   );
                 },
               ),

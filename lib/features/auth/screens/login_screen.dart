@@ -91,20 +91,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: Checkbox(
-                            value: _rememberMe,
-                            activeColor: Theme.of(context).colorScheme.primary,
-                            onChanged: (val) => setState(() => _rememberMe = val ?? false),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: Checkbox(
+                              value: _rememberMe,
+                              activeColor: Theme.of(context).colorScheme.primary,
+                              onChanged: (val) => setState(() => _rememberMe = val ?? false),
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text('Remember me', style: Theme.of(context).textTheme.bodySmall),
-                      ],
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: Text(
+                              'Remember me',
+                              style: Theme.of(context).textTheme.bodySmall,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     TextButton(
                       onPressed: () => Navigator.pushNamed(context, AppRoutes.forgotPassword),

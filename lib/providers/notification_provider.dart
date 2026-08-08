@@ -13,8 +13,12 @@ class NotificationProvider extends ChangeNotifier {
   void _loadNotifications() {
     final notificationsJson = StorageService.getString('user_notifications');
     if (notificationsJson != null && notificationsJson.isNotEmpty) {
-      final List<dynamic> decoded = json.decode(notificationsJson);
-      _notifications = decoded.map((n) => NotificationModel.fromJson(n)).toList();
+      try {
+        final List<dynamic> decoded = json.decode(notificationsJson);
+        _notifications = decoded.map((n) => NotificationModel.fromJson(n)).toList();
+      } catch (_) {
+        _notifications = [];
+      }
     } else {
       _notifications = [
         NotificationModel(

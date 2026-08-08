@@ -19,8 +19,12 @@ class PickupProvider extends ChangeNotifier {
   void _loadRequests() {
     final requestsJson = StorageService.getString('pickup_requests');
     if (requestsJson != null && requestsJson.isNotEmpty) {
-      final List<dynamic> decoded = json.decode(requestsJson);
-      _requests = decoded.map((r) => PickupRequest.fromJson(r)).toList();
+      try {
+        final List<dynamic> decoded = json.decode(requestsJson);
+        _requests = decoded.map((r) => PickupRequest.fromJson(r)).toList();
+      } catch (_) {
+        _requests = [];
+      }
     } else {
       _requests = [
         PickupRequest(

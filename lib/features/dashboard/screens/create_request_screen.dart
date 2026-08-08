@@ -10,6 +10,7 @@ import '../../../widgets/custom_text_field.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'location_picker_screen.dart';
+import '../../../core/config/app_config.dart';
 
 class CreateRequestScreen extends StatefulWidget {
   const CreateRequestScreen({super.key});
@@ -30,6 +31,12 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
   // LatLng? _selectedLocation; // Removed unused field
 
   void _pickLocationOnMap() async {
+    if (!AppConfig.isGoogleMapsConfigured) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Live map is unavailable. Add a Google Maps API key to enable it.')),
+      );
+      return;
+    }
     final LatLng? result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const LocationPickerScreen()),
@@ -99,7 +106,11 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
                       hint: '15',
                       controller: _weightController,
                       keyboardType: TextInputType.number,
-                      validator: (v) => v!.isEmpty ? 'Required' : null,
+                      validator: (v) {
+                        if (v == null || v.isEmpty) return 'Required';
+                        if (double.tryParse(v) == null) return 'Enter a valid number';
+                        return null;
+                      },
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -164,9 +175,9 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
       final pickupProvider = context.read<PickupProvider>();
+      final user = context.read<UserProvider>().user;
       await Future.delayed(const Duration(seconds: 2));
       
-      final user = context.read<UserProvider>().user;
       final newRequest = PickupRequest(
         id: DateTime.now().toString(),
         customerId: user?.id ?? 'u1',
@@ -174,7 +185,7 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
         address: _addressController.text,
         description: _descController.text,
         wasteType: _selectedType,
-        weightKg: double.parse(_weightController.text),
+        weightKg: double.tryParse(_weightController.text) ?? 0,
         dateTime: _selectedDate,
         contactNumber: _contactController.text,
         trackingNumber: 'ECO-${DateTime.now().millisecond}-SF',

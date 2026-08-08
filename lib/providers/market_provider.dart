@@ -16,8 +16,12 @@ class MarketProvider extends ChangeNotifier {
   void _loadListings() {
     final listingsJson = StorageService.getString('market_listings');
     if (listingsJson != null && listingsJson.isNotEmpty) {
-      final List<dynamic> decoded = json.decode(listingsJson);
-      _listings = decoded.map((l) => MarketListing.fromJson(l)).toList();
+      try {
+        final List<dynamic> decoded = json.decode(listingsJson);
+        _listings = decoded.map((l) => MarketListing.fromJson(l)).toList();
+      } catch (_) {
+        _listings = [];
+      }
     } else {
       _listings = [
         MarketListing(

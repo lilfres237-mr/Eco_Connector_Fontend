@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../services/location_service.dart';
+import '../../../core/config/app_config.dart';
+import '../../../widgets/map_fallback.dart';
 
 class LocationPickerScreen extends StatefulWidget {
   const LocationPickerScreen({super.key});
@@ -42,20 +44,22 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          GoogleMap(
-            initialCameraPosition: CameraPosition(target: _pickedLocation, zoom: 15),
-            onMapCreated: (controller) => _mapController = controller,
-            onCameraMove: (pos) => _pickedLocation = pos.target,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-          ),
-          const Center(
-            child: Icon(Icons.location_on, size: 40, color: AppColors.primary),
-          ),
-        ],
-      ),
+      body: !AppConfig.isGoogleMapsConfigured
+          ? const MapFallback()
+          : Stack(
+              children: [
+                GoogleMap(
+                  initialCameraPosition: CameraPosition(target: _pickedLocation, zoom: 15),
+                  onMapCreated: (controller) => _mapController = controller,
+                  onCameraMove: (pos) => _pickedLocation = pos.target,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                ),
+                const Center(
+                  child: Icon(Icons.location_on, size: 40, color: AppColors.primary),
+                ),
+              ],
+            ),
     );
   }
 }

@@ -6,6 +6,8 @@ import '../../../models/pickup_request.dart';
 import '../../../core/constants/app_images.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../../core/config/app_config.dart';
+import '../../../widgets/map_fallback.dart';
 
 import 'package:provider/provider.dart';
 import '../../../providers/pickup_provider.dart';
@@ -90,13 +92,15 @@ class PickupDetailsScreen extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: GoogleMap(
-                  initialCameraPosition: const CameraPosition(target: LatLng(37.7749, -122.4194), zoom: 14),
-                  markers: {
-                    const Marker(markerId: MarkerId('pickup'), position: LatLng(37.7749, -122.4194)),
-                  },
-                  zoomControlsEnabled: false,
-                ),
+                child: AppConfig.isGoogleMapsConfigured
+                    ? GoogleMap(
+                        initialCameraPosition: const CameraPosition(target: LatLng(37.7749, -122.4194), zoom: 14),
+                        markers: {
+                          const Marker(markerId: MarkerId('pickup'), position: LatLng(37.7749, -122.4194)),
+                        },
+                        zoomControlsEnabled: false,
+                      )
+                    : const MapFallback(),
               ),
             ),
             const SizedBox(height: 40),

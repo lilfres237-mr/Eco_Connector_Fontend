@@ -107,7 +107,7 @@ class MarketListing {
       sellerId: json['sellerId'],
       sellerName: json['sellerName'],
       sellerAvatar: json['sellerAvatar'],
-      imageUrls: List<String>.from(json['imageUrls']),
+      imageUrls: json['imageUrls'] is List ? List<String>.from(json['imageUrls']) : const [],
       rating: (json['rating'] as num).toDouble(),
       location: json['location'],
       createdAt: DateTime.parse(json['createdAt']),

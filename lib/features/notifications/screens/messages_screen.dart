@@ -62,13 +62,13 @@ class _MessagesScreenState extends State<MessagesScreen> {
               itemCount: rooms.length,
               itemBuilder: (context, index) {
                 final room = rooms[index];
-                final lastMessage = room.messages.last;
+                final lastMessage = room.messages.isEmpty ? null : room.messages.last;
                 return _buildChatItem(
                   context,
                   roomId: room.id,
                   imageUrl: room.otherUserAvatar,
                   name: room.otherUserName,
-                  message: lastMessage.text,
+                  message: lastMessage?.text ?? '',
                   time: '10:24 AM', // Simplified
                   isUnread: room.messages.any((m) => !m.isMe), // Simple logic
                 );

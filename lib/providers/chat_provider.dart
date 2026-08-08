@@ -17,8 +17,12 @@ class ChatProvider extends ChangeNotifier {
   void _loadChatRooms() {
     final chatJson = StorageService.getString('user_chats');
     if (chatJson != null && chatJson.isNotEmpty) {
-      final List<dynamic> decoded = json.decode(chatJson);
-      _chatRooms = decoded.map((c) => ChatRoom.fromJson(c)).toList();
+      try {
+        final List<dynamic> decoded = json.decode(chatJson);
+        _chatRooms = decoded.map((c) => ChatRoom.fromJson(c)).toList();
+      } catch (_) {
+        _chatRooms = [];
+      }
     } else {
       _chatRooms = [
         ChatRoom(

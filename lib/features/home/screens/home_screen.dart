@@ -14,6 +14,8 @@ import '../../../providers/user_provider.dart';
 import '../../../models/user_model.dart';
 import '../widgets/quick_action_button.dart';
 import '../../../core/constants/app_images.dart';
+import '../../../core/config/app_config.dart';
+import '../../../widgets/map_fallback.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -221,7 +223,8 @@ class HomeScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
+              Expanded(
+                child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -246,16 +249,22 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      Text(
-                        '120 ${l10n.pts}',
-                        style: AppTextStyles.h1.copyWith(
-                          color: Colors.white,
-                          fontSize: 32,
+                      Flexible(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            '120 ${l10n.pts}',
+                            style: AppTextStyles.h1.copyWith(
+                              color: Colors.white,
+                              fontSize: 32,
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ],
+                ),
               ),
               Container(
                 padding: const EdgeInsets.all(10),
@@ -323,7 +332,14 @@ class HomeScreen extends StatelessWidget {
           children: [
             const Icon(Icons.add_circle, size: 24),
             const SizedBox(width: 12),
-            Text(l10n.requestPickup, style: AppTextStyles.button.copyWith(fontSize: 18)),
+            Flexible(
+              child: Text(
+                l10n.requestPickup,
+                style: AppTextStyles.button.copyWith(fontSize: 18),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ),
@@ -380,8 +396,8 @@ class HomeScreen extends StatelessWidget {
             child: const Text('TIPS', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
           ),
           const SizedBox(height: 12),
-          Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
-          Text(subtitle, style: const TextStyle(color: Colors.white70, fontSize: 14, height: 1.3)),
+          Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20), maxLines: 2, overflow: TextOverflow.ellipsis),
+          Text(subtitle, style: const TextStyle(color: Colors.white70, fontSize: 14, height: 1.3), maxLines: 3, overflow: TextOverflow.ellipsis),
         ],
       ),
     );
@@ -627,17 +643,21 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                      child: GoogleMap(
-                        initialCameraPosition: const CameraPosition(target: LatLng(37.7749, -122.4194), zoom: 13),
-                        zoomControlsEnabled: false,
-                        markers: !isSearching ? {
-                          const Marker(
-                            markerId: MarkerId('rider1'),
-                            position: LatLng(37.7849, -122.4294),
-                            infoWindow: InfoWindow(title: 'Rider: Marcus Chen'),
-                          ),
-                        } : {},
-                      ),
+                      child: AppConfig.isGoogleMapsConfigured
+                          ? GoogleMap(
+                              initialCameraPosition: const CameraPosition(target: LatLng(37.7749, -122.4194), zoom: 13),
+                              zoomControlsEnabled: false,
+                              markers: !isSearching
+                                  ? {
+                                      const Marker(
+                                        markerId: MarkerId('rider1'),
+                                        position: LatLng(37.7849, -122.4294),
+                                        infoWindow: InfoWindow(title: 'Rider: Marcus Chen'),
+                                      ),
+                                    }
+                                  : {},
+                            )
+                          : const MapFallback(),
                     ),
                     if (isSearching)
                       Container(
