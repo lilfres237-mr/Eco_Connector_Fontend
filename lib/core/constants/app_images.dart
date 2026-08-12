@@ -12,10 +12,8 @@ class AppImages {
   static const String organicDefault = 'assets/images/organic_waste.png';
   
   // Helper to get safe image URL
-  static String getSafeImage(String? url, {String fallback = wastePlaceholder}) {
-    if (url == null || url.isEmpty || url.startsWith('http')) {
-      // In production quality prototype, we replace all network calls with local assets
-      // until backend CORS is configured.
+  static String getSafeImage(String? url, {String fallback = avatarPlaceholder}) {
+    if (url == null || url.isEmpty) {
       return fallback;
     }
     return url;

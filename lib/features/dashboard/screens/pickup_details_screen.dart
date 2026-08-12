@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../models/pickup_request.dart';
+import '../../../widgets/eco_image.dart';
 import '../../../core/constants/app_images.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -64,7 +65,18 @@ class PickupDetailsScreen extends StatelessWidget {
             const SizedBox(height: 24),
             if (rider != null)
               _buildInfoSection('COURIER INFORMATION', [
-                _buildInfoRow('Rider Name', rider.name),
+                Row(
+                  children: [
+                    EcoImage(
+                      imagePath: rider.avatar,
+                      width: 40,
+                      height: 40,
+                      shape: BoxShape.circle,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(child: _buildInfoRow('Rider Name', rider.name, showLabel: false)),
+                  ],
+                ),
                 _buildInfoRow('Vehicle', rider.vehicleInfo),
                 _buildInfoRow('Rating', '${rider.rating} ⭐'),
                 _buildInfoRow('Est. Arrival', rider.estimatedArrival),
@@ -175,15 +187,15 @@ class PickupDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(String label, String value) {
+  Widget _buildInfoRow(String label, String value, {bool showLabel = true}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: AppTextStyles.bodySmall),
-          const SizedBox(width: 16),
+          if (showLabel) Text(label, style: AppTextStyles.bodySmall),
+          if (showLabel) const SizedBox(width: 16),
           Flexible(
             child: Text(
               value,
@@ -277,11 +289,11 @@ class PickupDetailsScreen extends StatelessWidget {
 
   Widget _buildActionButton(BuildContext context, PickupRequest request) {
     final user = context.watch<UserProvider>().user;
-    final isRider = user?.role == UserRole.rider;
+    final isRiderMode = user?.currentMode == AppMode.rider;
     final isSearching = request.status == PickupStatus.searching;
     final canContact = request.status != PickupStatus.searching && request.status != PickupStatus.pending;
 
-    if (isRider && isSearching) {
+    if (isRiderMode && isSearching) {
       return SizedBox(
         width: double.infinity,
         height: 56,
@@ -312,7 +324,7 @@ class PickupDetailsScreen extends StatelessWidget {
       );
     }
 
-    if (isRider && !isSearching && request.status != PickupStatus.completed) {
+    if (isRiderMode && !isSearching && request.status != PickupStatus.completed) {
       return Row(
         children: [
           Expanded(

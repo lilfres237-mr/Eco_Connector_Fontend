@@ -1,5 +1,7 @@
 enum UserRole { customer, rider }
 
+enum AppMode { household, rider }
+
 class UserModel {
   final String id;
   String name;
@@ -11,6 +13,7 @@ class UserModel {
   String address;
   String? bio;
   UserRole role;
+  AppMode currentMode;
   String? governmentIdUrl;
   DateTime? joinedAt;
 
@@ -25,6 +28,7 @@ class UserModel {
     this.address = '',
     this.bio,
     this.role = UserRole.customer,
+    this.currentMode = AppMode.household,
     this.governmentIdUrl,
     this.joinedAt,
   });
@@ -39,6 +43,7 @@ class UserModel {
     String? address,
     String? bio,
     UserRole? role,
+    AppMode? currentMode,
     String? governmentIdUrl,
     DateTime? joinedAt,
   }) {
@@ -53,6 +58,7 @@ class UserModel {
       address: address ?? this.address,
       bio: bio ?? this.bio,
       role: role ?? this.role,
+      currentMode: currentMode ?? this.currentMode,
       governmentIdUrl: governmentIdUrl ?? this.governmentIdUrl,
       joinedAt: joinedAt ?? this.joinedAt,
     );
@@ -70,6 +76,7 @@ class UserModel {
       'address': address,
       'bio': bio,
       'role': role.index,
+      'currentMode': currentMode.index,
       'governmentIdUrl': governmentIdUrl,
       'joinedAt': joinedAt?.toIso8601String(),
     };
@@ -87,6 +94,7 @@ class UserModel {
       address: json['address'] ?? '',
       bio: json['bio'],
       role: UserRole.values[json['role'] ?? 0],
+      currentMode: AppMode.values[json['currentMode'] ?? 0],
       governmentIdUrl: json['governmentIdUrl'],
       joinedAt: json['joinedAt'] != null ? DateTime.parse(json['joinedAt']) : null,
     );

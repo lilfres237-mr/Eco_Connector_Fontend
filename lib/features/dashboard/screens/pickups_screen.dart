@@ -33,7 +33,7 @@ class _PickupsScreenState extends State<PickupsScreen> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     final user = context.watch<UserProvider>().user;
-    final isRider = user?.role == UserRole.rider;
+    final isRiderMode = user?.currentMode == AppMode.rider;
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -45,7 +45,7 @@ class _PickupsScreenState extends State<PickupsScreen> with SingleTickerProvider
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          isRider ? 'Job Management' : 'My Pickups',
+          isRiderMode ? 'Job Management' : 'My Pickups',
           style: AppTextStyles.h3.copyWith(
             color: Theme.of(context).colorScheme.primary,
             fontWeight: FontWeight.bold,
@@ -58,8 +58,8 @@ class _PickupsScreenState extends State<PickupsScreen> with SingleTickerProvider
           indicatorColor: Theme.of(context).colorScheme.primary,
           labelStyle: AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.bold),
           tabs: [
-            Tab(text: isRider ? 'Available' : 'Active'),
-            Tab(text: isRider ? 'My Jobs' : 'Completed'),
+            Tab(text: isRiderMode ? 'Available' : 'Active'),
+            Tab(text: isRiderMode ? 'My Jobs' : 'Completed'),
           ],
         ),
       ),
@@ -68,8 +68,8 @@ class _PickupsScreenState extends State<PickupsScreen> with SingleTickerProvider
           return TabBarView(
             controller: _tabController,
             children: [
-              _buildPickupList(context, isRider ? provider.availableForRiders : provider.activeRequests, isRider: isRider),
-              _buildPickupList(context, isRider ? provider.getRiderJobs(user?.id ?? '') : provider.completedRequests, isCompleted: !isRider, isRider: isRider),
+              _buildPickupList(context, isRiderMode ? provider.availableForRiders : provider.activeRequests, isRider: isRiderMode),
+              _buildPickupList(context, isRiderMode ? provider.getRiderJobs(user?.id ?? '') : provider.completedRequests, isCompleted: !isRiderMode, isRider: isRiderMode),
             ],
           );
         },

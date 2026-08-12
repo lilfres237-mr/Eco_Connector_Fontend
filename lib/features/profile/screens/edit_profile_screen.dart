@@ -6,6 +6,7 @@ import '../../../core/constants/app_text_styles.dart';
 import '../../../providers/user_provider.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text_field.dart';
+import '../../../widgets/eco_image.dart';
 import '../../../core/constants/app_images.dart';
 
 import 'dart:io';
@@ -163,13 +164,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         },
         child: Stack(
           children: [
-            CircleAvatar(
-              radius: 60,
-              backgroundColor: AppColors.gray200,
-              backgroundImage: _localImagePath != null 
-                  ? FileImage(File(_localImagePath!)) as ImageProvider
-                  : AssetImage(AppImages.getSafeImage(imageUrl, fallback: AppImages.avatarPlaceholder)) as ImageProvider,
-              child: (_localImagePath == null && imageUrl == null) ? const Icon(Icons.person, size: 60, color: AppColors.gray300) : null,
+            EcoImage(
+              imagePath: _localImagePath ?? imageUrl,
+              width: 120,
+              height: 120,
+              shape: BoxShape.circle,
             ),
             Positioned(
               bottom: 0,

@@ -20,6 +20,7 @@ void main() async {
   runApp(const EcoConnectApp());
 }
 
+
 class EcoConnectApp extends StatelessWidget {
   const EcoConnectApp({super.key});
 

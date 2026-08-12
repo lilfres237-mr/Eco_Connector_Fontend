@@ -24,7 +24,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final user = context.watch<UserProvider>().user;
-    final isRider = user?.role == UserRole.rider;
+    final currentMode = user?.currentMode ?? AppMode.household;
+    final isRiderMode = currentMode == AppMode.rider;
     
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -80,7 +81,7 @@ class HomeScreen extends StatelessWidget {
               if (value == 'pickups') {
                 Navigator.pushNamed(context, AppRoutes.pickups);
               } else if (value == 'settings') {
-                Navigator.pushNamed(context, isRider ? AppRoutes.riderControlPanel : AppRoutes.settings);
+                Navigator.pushNamed(context, isRiderMode ? AppRoutes.riderControlPanel : AppRoutes.settings);
               }
             },
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -91,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.local_shipping_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
                     const SizedBox(width: 12),
-                    Text(isRider ? 'Available Jobs' : 'View Pickups', style: AppTextStyles.bodyMedium),
+                    Text(isRiderMode ? 'Available Jobs' : 'View Pickups', style: AppTextStyles.bodyMedium),
                   ],
                 ),
               ),
@@ -99,9 +100,9 @@ class HomeScreen extends StatelessWidget {
                 value: 'settings',
                 child: Row(
                   children: [
-                    Icon(isRider ? Icons.dashboard_outlined : Icons.settings_outlined, size: 20, color: Theme.of(context).colorScheme.secondary),
+                    Icon(isRiderMode ? Icons.dashboard_outlined : Icons.settings_outlined, size: 20, color: Theme.of(context).colorScheme.secondary),
                     const SizedBox(width: 12),
-                    Text(isRider ? 'Control Panel' : 'Settings', style: AppTextStyles.bodyMedium),
+                    Text(isRiderMode ? 'Control Panel' : 'Settings', style: AppTextStyles.bodyMedium),
                   ],
                 ),
               ),
@@ -124,7 +125,7 @@ class HomeScreen extends StatelessWidget {
               )
             ),
             Text(
-              isRider 
+              isRiderMode 
                 ? 'Check available pickups and start earning!'
                 : 'Your contribution is making a difference today!',
               style: AppTextStyles.bodyMedium.copyWith(
@@ -133,25 +134,25 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             
-            if (isRider) _buildRiderEarningsCard(context) else _buildRewardsCard(context, l10n),
+            if (isRiderMode) _buildRiderEarningsCard(context) else _buildRewardsCard(context, l10n),
             const SizedBox(height: 24),
             _buildNewsCarousel(),
             const SizedBox(height: 24),
-            if (isRider) _buildRiderPickupsButton(context) else _buildRequestButton(context, l10n),
+            if (isRiderMode) _buildRiderPickupsButton(context) else _buildRequestButton(context, l10n),
             const SizedBox(height: 32),
             _buildSectionHeader(
               context,
-              isRider ? 'Available Requests' : l10n.upcomingPickup, 
+              isRiderMode ? 'Available Requests' : l10n.upcomingPickup, 
               l10n.manage, 
               () => Navigator.pushNamed(context, AppRoutes.pickups)
             ),
             const SizedBox(height: 16),
-            if (isRider) _buildAvailablePickupsList(context) else _buildUpcomingPickupCard(context, l10n),
+            if (isRiderMode) _buildAvailablePickupsList(context) else _buildUpcomingPickupCard(context, l10n),
             const SizedBox(height: 32),
-            _buildQuickActions(context, l10n, isRider),
+            _buildQuickActions(context, l10n, isRiderMode),
             const SizedBox(height: 32),
             Text(
-              isRider ? 'Active Route' : l10n.nearbyRider,
+              isRiderMode ? 'Active Route' : l10n.nearbyRider,
               style: AppTextStyles.bodySmall.copyWith(
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.0,
@@ -159,7 +160,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            _buildNearbyRiderMap(context, l10n, isRider, user?.id),
+            _buildNearbyRiderMap(context, l10n, isRiderMode, user?.id),
             
             const SizedBox(height: 40),
           ],

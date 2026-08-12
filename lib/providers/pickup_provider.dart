@@ -109,6 +109,17 @@ class PickupProvider extends ChangeNotifier {
     _requests.insert(0, newRequest);
     _saveRequests();
     notifyListeners();
+
+    // Notify ALL riders about the new pickup
+    _notificationProvider?.addNotification(
+      NotificationModel(
+        id: DateTime.now().toString(),
+        title: 'New Pickup Request!',
+        message: 'A new ${request.wasteType} pickup is available at ${request.address}.',
+        timestamp: DateTime.now(),
+        type: NotificationType.pickup,
+      ),
+    );
   }
 
   Future<bool> acceptPickup(String requestId, PickupRider rider) async {
@@ -116,21 +127,23 @@ class PickupProvider extends ChangeNotifier {
     if (index != -1 && _requests[index].status == PickupStatus.searching) {
       await Future.delayed(const Duration(milliseconds: 500));
       
-      _requests[index] = _requests[index].copyWith(
+      final updatedRequest = _requests[index].copyWith(
         status: PickupStatus.confirmed,
         assignedRider: rider,
         isBroadcasted: false,
       );
       
+      _requests[index] = updatedRequest;
+      
       await _saveRequests();
       notifyListeners();
 
-      // Notify the customer
+      // Notify the customer who created the request
       _notificationProvider?.addNotification(
         NotificationModel(
           id: DateTime.now().toString(),
           title: 'Rider Assigned!',
-          message: '${rider.name} has accepted your pickup request for ${_requests[index].wasteType}.',
+          message: '${rider.name} has accepted your pickup request for ${updatedRequest.wasteType}.',
           timestamp: DateTime.now(),
           type: NotificationType.riderAccepted,
         ),

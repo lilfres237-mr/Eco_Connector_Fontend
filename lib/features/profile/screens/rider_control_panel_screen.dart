@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../widgets/custom_button.dart';
+import '../../../core/routes/app_routes.dart';
+import '../../../providers/pickup_provider.dart';
+import '../../../providers/user_provider.dart';
 
 class RiderControlPanelScreen extends StatefulWidget {
   const RiderControlPanelScreen({super.key});
@@ -13,6 +17,11 @@ class _RiderControlPanelScreenState extends State<RiderControlPanelScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>().user;
+    final pickupProvider = context.watch<PickupProvider>();
+    final riderJobs = pickupProvider.getRiderJobs(user?.id ?? '');
+    final totalEarnings = riderJobs.length * 25.0; // Mock earnings per job
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -26,8 +35,13 @@ class _RiderControlPanelScreenState extends State<RiderControlPanelScreen> {
           children: [
             _buildStatusCard(),
             const SizedBox(height: 32),
-            _buildEarningsSummary(),
+            _buildEarningsSummary(riderJobs.length, totalEarnings),
             const SizedBox(height: 32),
+            CustomButton(
+              text: 'View Pickup Requests',
+              onPressed: () => Navigator.pushNamed(context, AppRoutes.pickups),
+            ),
+            const SizedBox(height: 16),
             Text('Vehicle Information', style: Theme.of(context).textTheme.headlineSmall),
             const SizedBox(height: 16),
             _buildInfoTile(Icons.electric_bike, 'Vehicle Type', 'Electric Trike'),
@@ -98,7 +112,7 @@ class _RiderControlPanelScreenState extends State<RiderControlPanelScreen> {
     );
   }
 
-  Widget _buildEarningsSummary() {
+  Widget _buildEarningsSummary(int jobsCount, double earnings) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -116,7 +130,7 @@ class _RiderControlPanelScreenState extends State<RiderControlPanelScreen> {
                 children: [
                   Text('TODAY\'S EARNINGS', style: Theme.of(context).textTheme.bodySmall?.copyWith(letterSpacing: 1.2)),
                   const SizedBox(height: 4),
-                  Text('\$145.50', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
+                  Text('\$${earnings.toStringAsFixed(2)}', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
                 ],
               ),
               Container(
@@ -133,9 +147,9 @@ class _RiderControlPanelScreenState extends State<RiderControlPanelScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildMiniStat('Jobs', '6'),
-              _buildMiniStat('Distance', '14km'),
-              _buildMiniStat('Points', '240'),
+              _buildMiniStat('Jobs', jobsCount.toString()),
+              _buildMiniStat('Distance', '${jobsCount * 2}km'),
+              _buildMiniStat('Points', '${jobsCount * 40}'),
             ],
           ),
         ],

@@ -13,7 +13,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   void _loadUser() {
-    final userJson = StorageService.getString('current_user'); // Use consistent key with AuthProvider
+    final userJson = StorageService.getString('current_user'); 
     if (userJson != null && userJson.isNotEmpty) {
       try {
         _user = UserModel.fromJson(json.decode(userJson));
@@ -44,7 +44,30 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> updatePoints(double delta) async {
     if (_user != null) {
-      _user = _user!.copyWith(ecoRating: _user!.ecoRating + delta); // Using ecoRating as a proxy for balance in this prototype
+      _user = _user!.copyWith(ecoRating: _user!.ecoRating + delta); 
+      await StorageService.setString('current_user', json.encode(_user!.toJson()));
+      notifyListeners();
+    }
+  }
+
+  Future<void> registerAsRider({
+    required String idNumber,
+    required String idImageUrl,
+    String? vehicleInfo,
+  }) async {
+    if (_user != null) {
+      _user = _user!.copyWith(
+        role: UserRole.rider,
+        governmentIdUrl: idImageUrl,
+      );
+      await StorageService.setString('current_user', json.encode(_user!.toJson()));
+      notifyListeners();
+    }
+  }
+
+  Future<void> switchMode(AppMode mode) async {
+    if (_user != null && _user!.role == UserRole.rider) {
+      _user = _user!.copyWith(currentMode: mode);
       await StorageService.setString('current_user', json.encode(_user!.toJson()));
       notifyListeners();
     }

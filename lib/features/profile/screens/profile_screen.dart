@@ -12,6 +12,7 @@ import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/settings_provider.dart';
 import '../../../widgets/app_logo.dart';
+import '../../../widgets/eco_image.dart';
 import '../../../core/constants/app_images.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -82,10 +83,11 @@ class ProfileScreen extends StatelessWidget {
         Center(
           child: Stack(
             children: [
-              CircleAvatar(
-                radius: 50,
-                backgroundColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-                backgroundImage: AssetImage(AppImages.getSafeImage(user?.profileImageUrl, fallback: AppImages.avatarPlaceholder)),
+              EcoImage(
+                imagePath: user?.profileImageUrl,
+                width: 100,
+                height: 100,
+                shape: BoxShape.circle,
               ),
               Positioned(
                 bottom: 0,
@@ -132,16 +134,39 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildMenuSection(BuildContext context, AppLocalizations l10n, SettingsProvider settings, bool isRider) {
+    final userProvider = context.read<UserProvider>();
+    final currentMode = userProvider.user?.currentMode ?? AppMode.household;
+
     return Column(
       children: [
+        if (userProvider.user?.role == UserRole.rider)
+          ProfileMenuItem(
+            icon: currentMode == AppMode.household ? Icons.directions_bike : Icons.home_outlined,
+            title: currentMode == AppMode.household ? 'Switch to Rider Mode' : 'Switch to Household Mode',
+            subtitle: currentMode == AppMode.household ? 'Access your rider control panel and jobs.' : 'Use EcoConnect as a household user.',
+            bgColor: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
+            trailing: Switch(
+              value: currentMode == AppMode.rider,
+              onChanged: (value) {
+                userProvider.switchMode(value ? AppMode.rider : AppMode.household);
+              },
+            ),
+            onTap: () {
+              userProvider.switchMode(currentMode == AppMode.household ? AppMode.rider : AppMode.household);
+            },
+          ),
         ProfileMenuItem(
           icon: Icons.grid_view_rounded,
-          title: isRider ? 'Rider Dashboard' : 'Customer Dashboard',
+          title: currentMode == AppMode.rider ? 'Rider Dashboard' : 'Customer Dashboard',
           bgColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
           onTap: () {
-            final mainState = context.findAncestorStateOfType<MainScreenState>();
-            if (mainState != null) {
-              mainState.setTab(0);
+            if (currentMode == AppMode.rider) {
+               Navigator.pushNamed(context, AppRoutes.riderControlPanel);
+            } else {
+              final mainState = context.findAncestorStateOfType<MainScreenState>();
+              if (mainState != null) {
+                mainState.setTab(0);
+              }
             }
           },
         ),
